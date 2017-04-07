@@ -7,4 +7,4 @@ Project objective was to create a predictive model for the number of yards for a
     
 **2) Data:** Python and R code used to build the database for the whole project.
 
-**3) Analyses:** R codes to do perform different types of analyses.
+**3) Analyses:** R codes to perform different types of analyses.
