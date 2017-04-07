@@ -1,0 +1,5 @@
+The data was contructed by doing some queries to the NFL database builded by the nfldb repository from BurntSushi.
+
+The python code is used for doing the queries of the whole database and doing some filtering and transformations (more detail in the code).
+
+The R code is used to fix some minor errors remaining in the resulting dataframe (more detail in the code).
