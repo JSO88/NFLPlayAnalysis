@@ -7,3 +7,5 @@ This folder has the following files:
 5) nflgames.Rda: NFL 2009-2015 selected plays (213,885 plays).
 6) nflgames.sample.Rda: sample of nflgames.Rda used for some analyses where using the whole data was not possible.
 7) b1.Rda: has the results of a bootstrap, used to avoid running each time the pdf is knitted.
+
+In order to knit the pdf all the previous files need to be in the same folder.
