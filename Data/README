@@ -1,5 +1,9 @@
 The data was contructed by doing some queries to the NFL database builded by the nfldb repository from BurntSushi.
 
-The python code is used for doing the queries of the whole database and doing some filtering and transformations (more detail in the code).
+1) playbyplay.py: Python code used for doing the queries of the whole database and doing some filtering and transformations such as:
+   - All special team plays were removed (e.g., kickoff, FG, Punt).
+   - All turnovers were removed (e.g., fumbles, interceptions).
+   - All ‘spike’ plays for clock stoppage were removed.
+   - All ‘kneel’ plays for ending half/game were removed.
 
-The R code is used to fix some minor errors remaining in the resulting dataframe (more detail in the code).
+2) errors elimination.R: R code is used to fix some minor errors and transforming some variables in the resulting database from the playbyplay.py code.
