@@ -1,0 +1,92 @@
+---
+title: "6214 - Applied Linear Models"
+author: "Notes 09-19-2016"
+output: html_document
+---
+## Linear Regression
+
+<br>
+
+Suppose We have $y_i \hspace{0.25cm}$ $i=1, \dots,n$ observations of a response[^1] and $p$ predictors[^2] for each response $x_{i,j}\hspace{0.25cm}$ $i=1, \dots,n \hspace{0.25cm}$   $j=1,\dots,p$
+ 
+[^1]: y is also called dependent variable, target.
+[^2]: the x's are also called independent, variables, covariates, design matrix.
+ 
+We propose a **linear model** that relates $y$ to $x$ in order to predict new responses as well as to understand the relationship between tha variables: 
+
+\[ y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \dots + \beta_p x_{i,p} + \epsilon_i\]
+
+_For example:_ $\hspace{1cm} y_i$= house price, $x_{i,1}$= number of rooms, $x_{i,2}$= crime rate in the area, etc.
+ 
+Using matrix notation:
+
+\[ \vec Y=X \vec \beta + \vec \varepsilon \]
+
+Where:
+
+\[ \vec Y_{n\cdot 1} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix} \hspace{1cm} X_{n\cdot p} = \begin{pmatrix} 1 & x_{1,1} & x_{1,2} & \dots & x_{1,p}\\ 1 & x_{2,1} & x_{2,2} & \dots & x_{2,p}\\ \vdots & \vdots & \vdots & \ddots & \vdots\\ 1 & x_{n,1} & x_{n,2} & \dots & x_{n,p} \end{pmatrix} \hspace{1cm} \vec \beta_{p\cdot 1} = \begin{pmatrix} \beta_0\\ \beta_1\\ \vdots \\ \beta_n \end{pmatrix}  \hspace{1cm} \vec \epsilon_{n\cdot 1} = \begin{pmatrix} \epsilon_1\\ \epsilon_2\\ \vdots \\ \epsilon_n \end{pmatrix}\] 
+
+\[n \text{=number of observations} \hspace{1cm} p \text{= number of predictors}\]
+
+
+**Notes**:  
+
+- $y_i$ is the $i^{th}$ response.  
+- $x_{i,j}$ is the $i^{th}$ observation of the $j^{th}$ predictor.  
+- $\vec Y$ and $X$ are **known**.  
+- The $\beta_i$'s are called the coefficients and are **unknown**.  
+- The first column of the design matrix $X$ is filled with ones in order to have an intercept ($\beta_0$). If we do not want an intercept we simply remove the columns of 1's and $\beta_0$.  
+- $\vec \epsilon$ is the error vector. Also known as noise. The average of the errors should be zero.  
+
+<br>
+
+##LSM: Least Squares Minimization
+
+<br>
+
+We want to estimate the $\beta_i$'s in a way that  
+\[\text{real data}\leftarrow \vec Y - \hat{\vec Y} \rightarrow \text{model} \] 
+are as close as possible.  
+
+There are different criterias[^3] to do this. The LSM criteria is to minimize the squared distance
+
+[^3]: Another criteria is the LAD (Least Absolute Deviations) $\sum_{i=1}^{n}|Y_i-\hat{Y_i}|$
+
+\[ \| \vec Y-\hat{Y} \|^2_2 = \sum_{i=1}^{n}(Y_i-\hat{Y_i})^2 \]
+
+
+Which can be written in matrix notation as:
+
+\[ (\vec Y - X^\intercal \hat{\vec \beta})^\intercal(\vec Y - X^\intercal \hat{\vec \beta})= \vec Y^\intercal \vec Y - 2 \vec Y^\intercal X \hat{\vec \beta} + \hat{\vec \beta^\intercal} X^\intercal X \hat{\vec \beta} \]
+
+To get the minimum we take the derivative with respect to $\hat{\vec \beta}$ and equate to zero:
+
+\[ \frac{\partial}{\partial \vec \beta}(\vec Y^\intercal \vec Y - 2 \vec Y^\intercal X \hat{\vec \beta} + \hat{\vec \beta^\intercal} X^\intercal X \hat{\vec \beta}) = -2 X^\intercal \vec Y + 2 X^\intercal X \hat{\vec \beta} = 0\]
+
+\[ \Rightarrow \hspace{1cm} 2 X^\intercal \vec Y = 2 X^\intercal X \hat{\vec \beta}\]
+
+\[ \Rightarrow \hspace{1cm} \hat{\vec \beta} = (X^\intercal X)^{-1} X^\intercal \vec Y \hspace{0.5cm} \rightarrow \text{normal equations}\] 
+
+<br>
+
+_Example_: normal equations with 1 predictor
+
+\[ \hat{y_i}=\beta_0+\beta_1 x_i \hspace{1cm} i=1,\dots,n\]
+
+Using the matrix notation and centering the $x$'s
+
+\[ X=\begin{pmatrix} 1 & (x_1 - \bar x) \\ 1 & (x_2 - \bar x) \\ \vdots & \vdots \\ 1 & (x_n - \bar x) \end{pmatrix} \]
+
+\[ X^\intercal X = \begin{pmatrix} n & 0 \\ 0 & \sum_{i=1}^{n}(x_i - \bar x)^2 \end{pmatrix}\]
+
+Taking the inverse:
+
+\[ (X^\intercal X)^{-1} = \begin{pmatrix} \frac{1}{n} & 0 \\ 0 & \frac{1}{\sum_{i=1}^{n}(x_i - \bar x)^2} \end{pmatrix}\]
+
+\[ X^\intercal \vec Y = \begin{pmatrix} \sum_{i=1}^{n}y_i \\ \sum_{i=1}^{n}y_i(x_i - \bar x) \end{pmatrix}\]
+
+Puting all the pieces together:
+
+\[\hat{\vec \beta}  = (X^\intercal X)^{-1} X^\intercal \vec Y = \begin{pmatrix} \frac{1}{n} & 0 \\ 0 & \frac{1}{\sum_{i=1}^{n}(x_i - \bar x)^2} \end{pmatrix} \begin{pmatrix} \sum_{i=1}^{n}y_i \\ \sum_{i=1}^{n}y_i(x_i - \bar x) \end{pmatrix}\]
+
+\[ \Rightarrow \hspace{1cm} \hat{\vec \beta} = \begin{pmatrix} \hat{\beta_0} \\ \hat{\beta_1} \end{pmatrix}  = \begin{pmatrix} \sum_{i=1}^{n}\frac{y_i}{n} \\ \frac{\sum_{i=1}^{n}y_i(x_i - \bar x)}{\sum_{i=1}^{n}(x_i - \bar x)^2} \end{pmatrix}\]
